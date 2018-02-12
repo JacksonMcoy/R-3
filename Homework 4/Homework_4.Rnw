@@ -1,0 +1,291 @@
+\documentclass [a4paper]{article}
+
+\usepackage{graphics,latexsym,geometry,amsmath,bibunits,makeidx,fancyhdr}
+\usepackage[authoryear,round]{natbib}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{fullpage}
+
+\pagestyle{fancy}
+
+\title{Homework Assignment \#4} 
+\date{February 21, 2017}
+\author{Matt Kline}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[Part 1] Data Frames:
+\item[1.)] 
+\item[a.] Use data.frame() to create a data frame called pretendDf which contains the following
+data:
+
+<<>>=
+x <- c(61,175,111,124)
+y <- c(13,21,24,23)
+z <- c(4,18,14,18)
+pretendDf <- data.frame(x,y,z)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[b.] Display the row 1, column 3 element of pretendDf.
+
+<<>>=
+pretendDf[1,3]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[c.] Use two different commands, one involving \$ and the other involving [[ ]], to display the
+y column of pretendDf.
+
+<<>>=
+pretendDf$y
+pretendDf[[2]]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[d.]  Try the following and report what happens:
+
+<<>>=
+stack(pretendDf)
+@
+
+This lays out the columns all in one line organized by column.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[2.)] R is equipped with several built-in datasets, including the famous iris (flowers) data collected by Anderson and analyzed by Fisher in the 1930s. You can see its values by typing its name, iris, just as you would with datasets that you create yourself:
+
+<<>>=
+#iris
+@
+
+More information about the dataset can be found in the help file:
+
+<<>>=
+?iris
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[a.] Inspect the iris dataset using head(), dim(), str(), and names().
+
+<<>>=
+head(iris)
+dim(iris)
+str(iris)
+names(iris)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[b.] Compute the mean and standard deviation of the pedal lengths.
+
+<<>>=
+mean(iris$Petal.Length)
+sd(iris$Petal.Length)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[c.] Use square brackets [ ] to extract just the rows corresponding to Iris versicolor flowers.
+
+<<>>=
+versi <- iris[iris$Species == "versicolor",]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[d.] Compute the mean and standard deviation of the Iris versicolor pedal lengths.
+
+<<>>=
+sapply(versi, mean)
+sapply(versi, sd)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[e.] Create a new data frame that consists of the numeric columns of the iris dataset and calculate the means of its columns using colMeans().
+
+<<>>=
+colMeans(iris[1:4])
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[3.)] Two other built-in R datasets are beaver1 and beaver2. They contain body temperatures of two beavers. You can view them by typing their names, e.g.
+
+<<>>=
+#beaver1
+@
+
+More information can be found in the help file
+
+<<>>=
+?beaver1
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[a.] Add a column named id to the beaver1 dataset, where the value is always 1. Similarly, add an id column to beaver2, with value 2.
+
+<<>>=
+x <- c(1)
+b1 <- cbind(beaver1, x)
+x <- c(2)
+b2 <- cbind(beaver2, x)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[b.] Use rbind() to vertically combine the two data frames, then extract the subset where either beaver is active (activ == 1).
+
+<<>>=
+bcomb <- rbind(b1, b2)
+bcomb[bcomb$activ == 1,]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[c.] Find the mean body temperature when the beavers are active and the mean when they're inactive and compare the two.
+
+<<>>=
+sapply(bcomb[bcomb$activ == 1,], mean)
+sapply(bcomb[bcomb$activ == 0,], mean)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[4.)] The file carriers.txt contains data from a study to develop screening methods to identify carriers of a rare genetic disorder. Four measurements m1, m2, m3, m4 were made on blood sam- ples. One of these, m1, has been used before. The variables are:
+
+ObsNo = Observation number (sequence number per patient). Note that there are several samples per patient for some patients.
+HospID = Hospital identification number for blood sample
+Age = Age of patient
+Date = Date that blood sample was taken (mmddyy). Note that all day entries are 00. m1 = Measurement 1 (xxx.x)
+m2 = Measurement 2 (xxx.x). Eight missing data values.
+m3 = Measurement 3 (xxx.x)
+m4 = Measurement 4 (xxx.x). Seven missing data values.
+
+\item[a.] Use read.table() (with header = TRUE) to read the data into a data frame named blood. Examine blood using head(), dim(), names(), and str().
+
+<<>>=
+carriers <- read.table("/Users/Matt/Downloads/carriers.txt", header = T)
+head(carriers)
+dim(carriers)
+names(carriers)
+str(carriers)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[b.] Use complete.cases() to create a new data frame, blood2, containing just the rows of blood for which there are no NAs.
+
+<<>>=
+blood2 <- carriers[complete.cases(carriers),]
+blood2
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[c.] Compute the mean of the m2 column of blood2.
+
+<<>>=
+mean(blood2[[6]])
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.)] The files florida vote counts1.txt and florida vote counts2.txt contain county data from the 2000 presidential election in Florida. For each of the 67 Florida counties, the data include the type of voting machine used, the number of columns in the presidential ballot, the undervote, the overvote, and the vote counts for each of the presidential candidates. 
+
+The vote counts are the final certified counts reported by the Florida Division of Elections. An overvote happens when you vote for more candidates than the number of candidates you are permitted to vote for in a particular office race. Undervoting means that you cast fewer votes than you are permitted to cast.
+
+Of particular interest are the Buchanan vote in Palm Beach county, and the overvote as a function of voting machine type and number of columns.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[a.] Use read.table() (with header = TRUE) to read the data into two data frames, votes1 and votes2. Examine the two data frames using head(), dim(), names(), and str().
+
+<<>>=
+votes1 <- read.table("/Users/Matt/Downloads/flordia_vote_counts1.txt", header = T)
+votes2 <- read.table("/Users/Matt/Downloads/flordia_vote_counts2.txt", header = T)
+
+head(votes1)
+dim(votes1)
+names(votes1)
+str(votes1)
+
+head(votes2)
+dim(votes2)
+names(votes2)
+str(votes2)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[b.] Merge votes1 and votes2 together, by county, using merge(). Save the result in a data frame named votes.
+
+<<>>=
+votes <- merge(votes1, votes2)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[c.] Create a new column in votes named total containing the total number of votes cast in each county. Hint: Use apply(), with FUN = sum, making sure to only apply sum() to the columns of vote that contain vote counts.
+
+<<>>=
+total <- apply(votes[c("Browne", "Nader", "Harris", "Hagelin", "Buchanan", "McReynolds", "Phillips", "Moorehead", "Chote", "McCarthy")], MARGIN = 1, sum)
+votes <- cbind(votes, total)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[d.] Sort the rows of votes according to the values in the total column, for example by typing:
+
+<<>>=
+#votes[order(votes$total), ]
+@
+
+Which county cast the fewest total votes? Which cast the most?
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[e.] Compute the median number of overvotes for counties whose ballots had 1 column, and the median for counties whose ballots had 2 columns. Based on the medians, which type of ballot leads to more overvotes?
+
+<<>>=
+aggregate(votes$over, by = list(votes$columns), median)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{enumerate}
+\end{document}
+
+% Add in R code
+% <<>>=
+% code
+% @
+
+%\begin{enumerate}
+% enumerate makes a numbered list
+% \end{enumerate}
+
+% \begin{eqnarray*}
+% &center$            Will center on page
+% \end{eqnarray*}
+
+% \beta_1 + \beta_0   Will display fancy letters with subscript numbers
+
+% use dollar signs to surround "math mode" stuff $Y$ $X$ to get fancy letters
+
+% two backslashes (\\) at the end of a line means start a new paragraph
+
+% \noindent means do not indent the new paragraph

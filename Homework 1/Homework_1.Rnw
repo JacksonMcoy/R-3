@@ -1,0 +1,196 @@
+\documentclass [a4paper]{article}
+
+\usepackage{graphics,latexsym,geometry,amsmath,bibunits,makeidx,fancyhdr}
+\usepackage[authoryear,round]{natbib}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{fullpage}
+
+\pagestyle{fancy}
+
+\title{Homework Assignment \#1} 
+\date{January 24, 2017}
+\author{Matt Kline}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[1.] Calculate the monthly payment required for a loan of \$200,000, at a monthly interest rate of 0.003, based on monthly payments, starting in one month's time.
+
+$$R = p \frac{i}{1-(1+i)^{-n}}$$
+
+<<>>=
+i <- 0.003
+p <- 200000
+n <- 300
+p*(i/((1+i)^-n))
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[2.] a.) Compute the roots of the quadratic equation.
+
+$$3x^{2} + 2x - 1 = 0$$
+
+Quadratic Equation:\\
+
+$$x = \frac{-b + \sqrt(b^{2} - 4ac)}{2a}$$
+
+<<>>=
+a <- 3
+b <- 2
+c <- -1
+(-b+sqrt(b^2-4*a*c))/2*a
+(-b-sqrt(b^2-4*a*c))/2*a
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[2.] b.) What happens when you try to compute the roots of
+
+$$x^{2} + x + 1 = 0$$
+
+<<>>=
+a <- 1
+b <- 1
+c <- 1
+(-b+sqrt(b^2-4*a*c))/2*a
+(-b-sqrt(b^2-4*a*c))/2*a
+@
+
+Why?\\
+
+When calculating the roots for the above formula you get a Not a Number as a result.\\
+This means that the result is imaginary. \\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[3.] a.) Calculate the remainder after dividing 31,079 into 170,166,719.
+
+<<>>=
+170166719 %% 31079
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[3.] b.) How many times does 31,079 go into 170,166,719 (i.e what's the "integer divide" value.)?
+
+<<>>=
+170166719 %/% 31079
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[4.] a.) How can you use \%\% to compute the units digit of an integer x? For example, given the number 123, the units digit is 3 and the other digits are 12.
+
+<<>>=
+123 %% 120
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[4.] b.) How can you use \%/\% to return all but the units digit of x?
+
+<<>>=
+123 %/% 10
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.] Create the following objects.
+
+<<>>=
+jj1 <- jj2 <- jj3 <- aDf <- 8
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.] a.) Write a command that lists all the objects in your Workspace.\\
+
+<<>>=
+ls()
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.] b.) Write a command that removes jj3 from the Workspace.
+
+<<>>=
+rm(jj3)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.] c.) Write a command that removes all objects from your Workspace.
+
+<<>>=
+rm(list = ls())
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[6.] Try the commands pi, round (pi), round(pi, digits = 4) and trunc(pi), ceiling(pi), floor(pi). What are the results?
+
+<<>>=
+pi
+round(pi)
+round(pi, digits = 4)
+trunc(pi)
+ceiling(pi)
+floor(pi)
+@
+
+These commands will all show the value in a different position of a number.\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[7.] a.) Look at the help file for the function signif() by typing.
+
+<<>>=
+?signif
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[7.] b.) How many arguments does signif() have?\\
+
+Signif has two arguments. One for a vector and the second for the number of digits.\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[7.] c.) Do any of its arguments have default values? If so, which one, and what is its default value?.\\
+
+None of the arguments have default values.\\\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[7.] d.) Write commands that pring the value 7\^7/21,943 to 4, 5 and 6 significant digits.
+
+<<>>=
+signif(7^7/21943, digits = 4)
+signif(7^7/21943, digits = 5)
+signif(7^7/21943, digits = 6)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[8.] Refer to Problem 1. Write a function pmt() that has three arguments, P, a loan amount (in dollars), i, a monthly interest rate, and n, the number of months over which the loan is to be paid back (beginning one month from now), and returns the monthly payment amount R.
+
+<<>>=
+pmt <- function(p, i, n) {
+  r <- p*(i/((1+i)^-n))
+  r
+}
+
+pmt(200000, 0.003, 300)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{enumerate}
+\end{document}

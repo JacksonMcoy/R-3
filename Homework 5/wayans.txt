@@ -1,0 +1,41 @@
+
+wayans <- list(
+  DwayneKim = c(
+    "Jolie Ivory Imani", 
+    "Nala",
+    "Keenan Ivory Jr",
+    "Bella",
+    "Daphne Ivory"
+  ),
+  Damon = c(
+    "Damon Jr",
+    "Michael",
+    "Cara Mia",
+    "Kyla"
+  ),
+  Kim = character(0),
+  Shawn = c(
+    "Laila",
+    "Illia",
+    "Marlon"
+  ),
+  Marlon = c(
+    "Shawn Howell",
+    "Arnai Zachary"
+  ),
+  Nadia = character(0),
+  Elvira = c(
+    "Damien",
+    "Chaunte"
+  ),
+  Diedre = c(
+    "Craig",
+    "Gregg",
+    "Summer",
+    "Justin",
+    "Jamel"
+  ),
+  Vonnie = character(0)
+)
+
+

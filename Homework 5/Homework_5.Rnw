@@ -1,0 +1,309 @@
+\documentclass [a4paper]{article}
+
+\usepackage{graphics,latexsym,geometry,amsmath,bibunits,makeidx,fancyhdr}
+\usepackage[authoryear,round]{natbib}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{fullpage}
+
+\pagestyle{fancy}
+
+\title{Homework Assignment \#5} 
+\date{March 6, 2017}
+\author{Matt Kline}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[Part 1:] Factors and Tables
+
+\item[1.)] The built-in data set state.region shows the regions (North, South, Central, West, or Northeast) for each of the 50 United States. Type
+
+<<>>=
+state.region
+@
+
+to view the dataset and type
+
+<<>>=
+#?state.region
+@
+
+to view the help file. We want to summarize the 5 regions according to the sizes of the states within them. The following command splits the 50 states into 5 separate size-categories:
+
+<<>>=
+area <- cut(rank(state.x77[ , "Area"]), 5, c("Tiny", "Small", "Medium", "Large", "Huge"))
+@
+  
+\item[a)] What class of objects do state.region and area belong to? Use class().
+
+<<>>=
+class(state.region)
+class(area)
+@
+
+\item[b)] Use table() to create the table we're after:
+
+<<>>=
+table(state.region, area)
+@
+
+\item[c)] Which state in the West region is Tiny? Which one in the Northeast is Medium? Hint: The built-in data set state.name lists the names of the states.
+
+<<>>=
+state.name[(state.region == "West" && area == "Tiny")]
+state.name[(state.region == "Northeast" && area == "Medium")]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[Part 2:] R Programming Structures
+
+\item[2.)] Print the message "Hello World" to the R console 7 times using three different methods:
+
+\item[a)] Using a for() loop
+
+<<>>=
+for(i in 1:7){
+  print("Hello World")
+}
+@
+
+\item[b)] Using a while() loop
+
+<<>>=
+i <- 0
+while(i < 7){
+  print("Hello World")
+  i <- i + 1
+}
+@
+
+\item[c)] Using a repeat command with a break statement.
+
+ <<>>=
+i <- 0
+repeat {
+  print("Hello World")
+  i <- i + 1
+  if (i > 6) break
+ }
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[3.)] In each of the following, determine the final value of answer without the use of R. Explain your answer and then check it R.
+
+\item[a)]
+
+The answer should be 15.
+
+<<>>=
+answer <- 0
+for (j in 1:5) {
+answer <- answer + j
+}
+answer
+@
+
+\item[b)]
+
+The answer should be a list of 1 to 5
+
+<<>>=
+answer <- NULL
+for (j in 1:5) {
+answer <- c(answer, j)
+}
+answer
+@
+
+\item[c)]
+
+The answer should be a list of 0 to 5
+
+<<>>=
+answer <- 0
+for (j in 1:5) {
+answer <- c(answer, j)
+}
+answer
+@
+
+\item[d)]
+
+The answer should be 120
+
+<<>>=
+answer <- 1
+for (j in 1:5) {
+answer <- answer * j
+}
+answer
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[4.)] The file wayans.txt has a command to create a list containing two generations of the celebrity Wayans family. Loop over the list of the first generation of Wayanses, keeping trackof how many children each one has in a vector.
+
+<<>>=
+source("/Users/mkline6/Desktop/wayans.txt")
+
+children <- NULL
+for(i in wayans){
+  children <- c(children, length(i))
+}
+children
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[5.)] Use nested for() loops to create a matrix containing the multiplication table for the integers 1 through 12. The matrix should have 12 rows and 12 columns. The first row should contain the values 1 ? 1, 1 ? 2, . . . , 1 ? 12, the second row should contain 2 ? 1, 2 ? 2, . . . , 2 ? 12, and so on, as shown below.
+
+<<>>=
+X <- matrix(0, nrow = 12, ncol = 12)
+for(i in 1:12){
+  for(j in 1:12){
+    X[i,j] <- (i*j)
+  }
+}
+X
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[6.)] For each of the following compound logical expressions, decide whether it will evaluate to TRUE or FALSE. Explain your answer and then check it in R:
+
+\item[a)] 
+
+The answer should be FALSE
+
+<<>>=
+(4 > 5 & 8 < 9) | 2 > 3
+@
+
+\item[b)] 
+
+The answer should be FALSE
+
+<<>>=
+4 > 5 & (8 < 9 | 2 > 3)
+@
+
+\item[c)] 
+
+The answer should be TRUE
+
+<<>>=
+(4 > 5 & 2 > 3) | 8 < 9
+@
+
+\item[d)] 
+
+The answer should be FALSE
+
+<<>>=
+(4 > 5 & (2 > 3 | 8 < 9)) | 7 < 6
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[7.)] An exception to the rule that NAs in operators necessarily produce NAs is given by the AND and OR operators.
+
+%% I couldn't get the & and | to display for this quesiton. I thought it was just \& and \| but it wasn't working
+
+\item[a)] What are the values of:
+
+The first will give a TRUE because its nothing or true causing true.
+
+The second will give FALSE because anything and false is false.
+
+<<>>=
+NA | TRUE
+FALSE & NA
+@
+
+\item[b)] What are the values of:
+
+The first will give NA because false is being compared with na which is nothing.
+
+The second will give NA because NA is nothing and nothing cannot be true for the and case to be true.
+
+<<>>=
+NA | FALSE
+TRUE & NA
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[8.)] Write a function that checks the mode of its argument. If the mode is "numeric", "logical", or "character", return the sorted argument; otherwise, stop with an appropriate error message.
+
+<<>>=
+checkMode <- function(argument){
+  if (is.character(argument)){
+    sort(argument)
+    return 
+  } else if (is.numeric(argument)){
+    sort(argument)
+    return 
+  } else if (is.logicat(argument)){
+    sort(argument)
+    return 
+  } else stop("Not a recognized mode")
+}
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item[9.)] Functions can be defined to take a variable number of arguments. The special argument name "..." in a function definition will match any number of arguments in the call. For example, a function that returns the mean of all the values in an arbitrary number of different vectors is:
+
+<<>>=
+meanOfAll <- function(...) {
+  mean(c(...))
+}
+@
+
+so that
+
+<<>>=
+#meanOfAll(usSales, europeSales, otherSales)
+@
+
+would combine the three objects and take the mean of all the data. The effect of c(...) is as if c() had been called with the same three arguments passed to meanOfAll(). The use of "...", passing it as an argument in a call to another function (e.g. c(...)), is its only legal use in the body of a function. This restriction doesn't get in the way. To loop over arguments, for example, we can create a list of the evaluated arguments, list(...), and then use a for loop to get at each in turn. The names, if any, attached to the actual arguments will also be passed down to the call to list(...). In the previous example, to compute the mean of the individual means, instead of the mean of the combined data, we could use:
+
+<<>>=
+meanOfMeans <- function(...) {
+  means <- NULL
+  for (x in list(...)) {
+    means <- c(means, mean(x))
+  }
+  return(mean(means))
+}
+@
+
+Is there a difference between the values computed by meanOfAll() and meanOfMeans()? Try it on some simple data. Under what conditions on the vectors passed as arguments will the two functions return the same value?
+
+<<>>=
+x <- c(4,5,1,6,89,35,21)
+y <- c(86,35,1,1,5,76,7)
+z <- c(2,16,4,1346,7,24)
+
+meanOfAll(x,y)
+meanOfMeans(x,y)
+meanOfAll(x,y,z)
+meanOfMeans(x,y,z)
+@
+
+The vales are different when there are more than two vectors being passed. They are different because of the way they are calculated. The first calculates the total mean by computing all the individual means then the total mean with no rounding. The second does each mean seperately, rounds them then takes the mean of that rounded set of means. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{enumerate}
+\end{document}
