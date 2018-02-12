@@ -1,0 +1,75 @@
+\documentclass[a4paper]{article}
+
+\title{Final Exam: Take-Home (30 points)
+\\Intersecting Circles} 
+\date{Due May 9, 2017}
+\author{Matt Kline}
+
+\begin{document}
+\maketitle
+
+<<>>=
+circles <- function(theXY, theR){
+    maxIndex      <- 1
+    intersections <- rep(0, nrow(theXY))
+    circle        <- c(1:nrow(theXY))
+    numIntersect  <- cbind(circle, intersections)
+
+    # Draw plot and circles
+    plot(0:10, 0:10, type = "n", asp = .75, xlab = "",
+         ylab = "", main = "Circles")
+    for (index in 1:nrow(theXY)) {
+        symbols(theXY[index, 1], theXY[index, 2], theR[index],
+                inches = F, add = T, fg = "black", xlab = "",
+                ylab = "", xlim = c(0, 1.0), ylim = c(0, 1.0))
+    }
+
+
+    # Calculates number of intersections
+    distance <- as.matrix(dist(theXY, "euclidean",
+                               diag = NA, upper = T))
+    for (row in 1:nrow(distance)) {
+        for (column in 1:ncol(distance)) {
+            if (distance[row, column] == 0) {
+                next
+            } else if (distance[row, column] <= theR[row] + theR[column]) {
+                numIntersect[row, 2] <- numIntersect[row, 2] + 1
+            }
+        }
+    }
+
+
+    # Determines max number of intersections
+    for (index in 1:nrow(numIntersect)) {
+        if (numIntersect[index, 2] > numIntersect[maxIndex, 2]) {
+            maxIndex <- index
+        }
+    }
+
+
+    # Colors the circle with the most intersections
+    symbols(theXY[maxIndex, 1], theXY[maxIndex, 2], theR[maxIndex],
+            inches = F, add = T, fg = "red", xlab = "", ylab = "",
+                xlim = c(0, 1.0), ylim = c(0, 1.0))
+
+
+    # Prints results
+    print(numIntersect)
+    cat("Max number of intersections in circle", maxIndex)
+}
+
+myX  <- c(3, 1, 7, 3, 3, 4, 1, 5, 4, 9)
+myY  <- c(4, 1, 5, 9, 8, 9, 6, 5, 4, 3)
+myXY <- cbind(myX, myY)
+myR  <- c(2.0, 0.2, 1.0, 0.8, 0.6, 0.6, 0.3, 1.2, 1.5, 0.2)
+circles(myXY, myR)
+@
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%% end document %%%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+
